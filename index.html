@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Ing. Mauricio Mora, MSc.</title>
+    <style>
+        :root {
+            --main-blue: #007bff;
+            --dark-blue: #0056b3;
+            --light-blue-bg: #f0f8ff;
+            --header-bg: #0a2540;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --grey-background: #f8f9fa;
+            --light-grey-btn: #e0e0e0;
+            --icon-color-dark: var(--dark-blue);
+            --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-blue-bg); /* General body background */
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        /* Main container for the CV, now only for the main content */
+        #cv-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--light-blue-bg);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        /* Fixed action buttons container */
+        .fixed-action-buttons {
+            position: fixed;
+            top: 10px; /* Adjusted for mobile */
+            right: 10px; /* Adjusted for mobile */
+            z-index: 1000;
+            display: flex;
+            flex-direction: row; /* Buttons side-by-side on mobile */
+            gap: 8px; /* Slightly smaller gap */
+        }
+        /* Wrapper for buttons that contain dropdowns or are standalone */
+        .button-with-dropdown-wrapper,
+        .button-wrapper {
+            display: flex;
+            flex-direction: column; /* Stack button and its dropdown vertically */
+            align-items: flex-end; /* Align content (button and dropdown) to the right within the wrapper */
+        }
+
+        /* Hexagon buttons */
+        .hexagon-btn {
+            width: 45px; /* Smaller size for mobile */
+            height: 52px; /* Adjusted height to maintain aspect ratio */
+            background-color: var(--light-grey-btn);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--card-shadow);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .hexagon-btn:hover {
+            background-color: #cccccc;
+            transform: scale(1.05);
+        }
+        /* Icon sizes for buttons */
+        .hexagon-btn svg, .hexagon-btn .icon-hamburger {
+            width: 24px; /* Smaller icon size for mobile */
+            height: 24px;
+            fill: var(--icon-color-dark);
+            color: var(--icon-color-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .icon-hamburger span {
+            display: block;
+            width: 20px; /* Smaller hamburger lines */
+            height: 2px;
+            background-color: var(--icon-color-dark);
+            margin: 2px 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .icon-hamburger span:nth-child(1) {
+            transform-origin: top left;
+        }
+        .icon-hamburger span:nth-child(3) {
+            transform-origin: bottom left;
+        }
+
+        #menu-toggle-btn.open .icon-hamburger span:nth-child(1) {
+            transform: translateY(5px) rotate(45deg);
+        }
+        #menu-toggle-btn.open .icon-hamburger span:nth-child(2) {
+            opacity: 0;
+        }
+        #menu-toggle-btn.open .icon-hamburger span:nth-child(3) {
+            transform: translateY(-5px) rotate(-45deg);
+        }
+        /* Styles for the back-to-top button */
+        #back-to-top-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            display: none;
+        }
+        /* Icon for the back-to-top button */
+        #back-to-top-btn svg {
+            transform: rotate(-90deg); /* Arrow pointing up */
+        }
+
+        /* Sticky Navigation Menu */
+        .sticky-nav {
+            background-color: rgba(10, 37, 64, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            max-height: 0; /* Hidden by default */
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding: 0 15px;
+            width: 180px; /* Default width for the menu */
+            margin-top: 5px; /* Small gap between button and dropdown */
+            box-sizing: border-box; /* Ensure padding doesn't affect width calculations */
+        }
+
+        .sticky-nav.open {
+            max-height: 500px; /* Sufficient height to show all links */
+            padding: 15px;
+        }
+        .sticky-nav ul { list-style: none; margin: 0; padding: 0; }
+        .sticky-nav li { margin-bottom: 10px; }
+        .sticky-nav li:last-child { margin-bottom: 0; }
+        .sticky-nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.2s ease;
+            display: block;
+            padding: 5px;
+        }
+        .sticky-nav a:hover { color: var(--main-blue); transform: translateX(3px); }
+        .sticky-nav a.active-link { color: var(--main-blue); font-weight: bold; }
+
+        /* Language Switcher Specific Styles */
+        .language-dropdown-menu {
+            background-color: rgba(10, 37, 64, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            max-height: 0; /* Hidden by default */
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding: 0 15px;
+            width: 180px; /* Consistent width */
+            margin-top: 5px; /* Small gap between button and dropdown */
+            box-sizing: border-box; /* Ensure padding doesn't affect width calculations */
+        }
+
+        .language-dropdown-menu.open {
+            max-height: 200px; /* Sufficient height for language list */
+            padding: 15px;
+        }
+
+        .language-dropdown-menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .language-dropdown-menu li {
+            color: var(--text-light);
+            padding: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin-bottom: 5px;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .language-dropdown-menu li:last-child {
+            margin-bottom: 0;
+        }
+
+        .language-dropdown-menu li:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--main-blue);
+        }
+        /* Styles for the flag images */
+        .inline-flag-icon {
+            width: 24px; /* Adjust size as needed for the main flag display */
+            height: 24px;
+            object-fit: contain;
+            vertical-align: middle; /* Align with text if any */
+        }
+        .dropdown-flag-icon {
+            width: 20px; /* Adjust size for dropdown items */
+            height: 20px;
+            object-fit: contain;
+            vertical-align: middle;
+        }
+
+
+        /* Desktop specific styles */
+        @media (min-width: 768px) {
+            .fixed-action-buttons {
+                top: 20px; /* Original top margin for desktop */
+                right: 20px; /* Original right margin for desktop */
+                flex-direction: column; /* Stack buttons vertically on desktop */
+                gap: 10px; /* Original gap */
+            }
+            .hexagon-btn {
+                width: 55px; /* Original size for desktop */
+                height: 63.5px;
+            }
+            .hexagon-btn svg, .hexagon-btn .icon-hamburger {
+                width: 28px; /* Original icon size */
+                height: 28px;
+            }
+            .icon-hamburger span {
+                width: 22px; /* Original hamburger lines */
+                height: 3px;
+                margin: 2px 0;
+            }
+            /* Align wrappers to the right in column layout */
+            .button-with-dropdown-wrapper,
+            .button-wrapper {
+                align-self: flex-end; /* Align to the right in column layout */
+            }
+            .sticky-nav,
+            .language-dropdown-menu {
+                margin-top: 10px; /* Adjust gap for desktop */
+            }
+        }
+
+        header {
+            background-color: var(--header-bg);
+            color: var(--text-light);
+            padding: 60px 0; /* Vertical padding only, inner content handles horizontal */
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            width: 100%; /* Ensures header occupies full width */
+        }
+        /* New container to center content within the full-width header */
+        .header-inner-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px; /* Horizontal padding for content */
+            position: relative;
+            z-index: 2;
+        }
+
+        header img.profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid var(--main-blue);
+            margin-bottom: 20px;
+            background-color: var(--grey-background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--text-dark);
+            margin-left: auto;
+            margin-right: auto;
+            object-fit: cover;
+        }
+        header h1 { margin: 10px 0; font-size: 2.5em; color: var(--text-light); }
+        header .title { font-size: 1.5em; color: var(--main-blue); margin-bottom: 10px; }
+        header .header-description { font-size: 1.1em; max-width: 700px; margin: 0 auto; color: #e0e0e0; }
+        .hexagon-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        .hexagon {
+            position: absolute;
+            width: 100px;
+            height: 115.47px;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: float 20s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.15; }
+            25% { opacity: 0.4; }
+            50% { transform: translateY(-100px) rotate(180deg); opacity: 0.25; }
+            75% { opacity: 0.4; }
+            100% { transform: translateY(0) rotate(360deg); opacity: 0.15; }
+        }
+        section {
+            padding: 40px 20px;
+            margin-bottom: 20px;
+            background-color: var(--text-light);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        /* Styles for the content to be revealed */
+        .section-content-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .section-content-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section h2 {
+            text-align: center;
+            color: var(--dark-blue);
+            margin-bottom: 30px;
+            font-size: 2em;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        section h2::after {
+            content: ''; width: 60px; height: 4px;
+            background-color: var(--main-blue);
+            position: absolute; bottom: 0; left: 50%;
+            transform: translateX(-50%); border-radius: 2px;
+        }
+        #about p { font-size: 1.1em; text-align: justify; max-width: 800px; margin: 0 auto; }
+        #skills .skills-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .skill-category {
+            background-color: var(--grey-background); padding: 20px;
+            border-radius: var(--border-radius); flex-basis: calc(50% - 40px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .skill-category h3 { color: var(--dark-blue); margin-top: 0; border-bottom: 2px solid var(--main-blue); padding-bottom: 5px; }
+        .skill-item {
+            margin-bottom: 15px; padding: 10px; background-color: #fff;
+            border-radius: 4px; transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+            border-left: 4px solid var(--main-blue);
+        }
+        .skill-item:hover { transform: translateY(-5px); box-shadow: var(--card-shadow); }
+        .skill-item .skill-name { font-weight: bold; display: block; margin-bottom: 5px; }
+        .skill-level-text { font-size: 0.9em; color: #555; }
+        .language-level { font-style: italic; color: var(--dark-blue); }
+        /* Styles for the new timeline-item behavior */
+        .timeline-item {
+            padding: 0 40px 0 60px;
+            position: relative;
+            background-color: var(--grey-background);
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        /* Removed the ::before pseudo-element for the date emoji */
+        .timeline-item h3 {
+            margin-top: 0;
+            color: var(--dark-blue);
+            font-size: 1.3em;
+            padding: 20px 0 5px 0; /* Adjusted padding to make space for date */
+            margin-bottom: 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* Styles for the + / - symbol in timeline-item */
+        .timeline-item .arrow {
+            font-size: 1.5em;
+            width: 1em; /* Fixed width to prevent layout shifts */
+            text-align: center;
+            transition: transform 0.3s ease, color 0.3s ease; /* Transition to smooth the effect */
+            color: var(--dark-blue); /* Default color */
+            display: inline-block; /* Required for transform to work */
+        }
+        .timeline-item h3:hover .arrow {
+            color: var(--main-blue); /* Highlight color on hover */
+            transform: scale(1.2); /* Enlarge on hover */
+        }
+
+        /* Styling for the timeline icon container */
+        .timeline-item .timeline-icon {
+            position: absolute;
+            left: 8px;
+            top: 20px;
+            width: 40px; /* Size of the icon container */
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--text-light);
+            border-radius: 50%; /* Circular background */
+            border: 2px solid var(--main-blue);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Styling for the new image icon */
+        .timeline-icon-img {
+            width: 50px; /* Size of the image */
+            height: 50px;
+            object-fit: contain; /* Ensures the image fits within the bounds without distortion */
+            vertical-align: middle; /* Align image nicely */
+        }
+
+        /* Specific icons for Education sections */
+        .timeline-item .laptop-icon {
+            width: 30px;
+            height: 30px;
+            fill: var(--dark-blue);
+        }
+
+        .timeline-item .open-book-icon {
+            width: 30px;
+            height: 30px;
+            fill: var(--dark-blue);
+        }
+
+        /* Styling for the date */
+        .timeline-item .date {
+            font-style: italic;
+            color: #555;
+            font-size: 0.9em;
+            margin: 0 0 10px 60px; /* Adjust margin to align with content */
+        }
+
+        .timeline-item-content {
+            padding: 0 0 20px 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+        }
+        .timeline-item.open .timeline-item-content {
+            max-height: 1000px; /* Increased max-height for detailed content */
+            padding: 0 0 20px 0;
+        }
+
+        /* NEW: Styles for justified text and paragraph separation in timeline content */
+        .timeline-item-content p {
+            text-align: justify; /* Justify text for block format */
+            margin-bottom: 1em; /* Add spacing between paragraphs */
+        }
+        .timeline-item-content p:last-child {
+            margin-bottom: 0; /* No extra margin after the last paragraph */
+        }
+
+
+        /* Styles for the + / - symbol in project-card */
+        .project-card {
+            margin-bottom: 20px; /* Added space between projects */
+        }
+        .project-card .project-header {
+            padding: 15px 20px; background-color: var(--dark-blue);
+            color: var(--text-light); cursor: pointer; display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .project-header h3 { margin: 0; font-size: 1.2em; }
+        .project-header .arrow {
+            font-size: 1.5em;
+            transition: transform 0.3s ease, color 0.3s ease; /* Transition to smooth the effect */
+            color: var(--text-light); /* Default color */
+            display: inline-block; /* Required for transform to work */
+        }
+        .project-header:hover .arrow {
+            color: var(--main-blue); /* Highlight color on hover */
+            transform: scale(1.2); /* Enlarge on hover */
+        }
+        .project-card.open .project-header .arrow {
+            /* No rotate(90deg) is applied here because the symbol is not an arrow */
+            /* If you want a different effect for the "-" in projects, you can add it */
+        }
+        .project-card.open .project-header:hover .arrow {
+            transform: scale(1.2); /* Only enlarge, no rotation */
+        }
+
+        .project-content {
+            padding: 0 20px; max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+        }
+        .project-content p, .project-content ul { margin-top: 15px; margin-bottom: 15px; }
+        .project-card.open .project-content { padding: 15px 20px; max-height: 1000px; }
+        footer {
+            background-color: var(--dark-blue); color: var(--text-light);
+            text-align: center; padding: 30px 20px;
+        }
+        footer p { margin: 5px 0; }
+        footer a { color: var(--main-blue); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        footer .contact-info-item { margin-bottom: 10px; }
+
+        /* Styles for the document button */
+        .document-btn {
+            background-color: var(--main-blue);
+            color: var(--text-light);
+            border: none;
+            border-radius: 50%; /* Make it round */
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 15px; /* Space from description */
+            margin-left: auto; /* Push to the right */
+            margin-right: 0;
+        }
+        .document-btn:hover {
+            background-color: var(--dark-blue);
+            transform: scale(1.1);
+        }
+        .document-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor; /* Use button text color for icon */
+        }
+
+        /* Styles for the message modal (now for PDF) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Darker background for PDF */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: var(--text-light);
+            padding: 20px; /* Reduce padding to maximize PDF space */
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            max-width: 90%; /* Wider for PDF */
+            max-height: 90%; /* Taller for PDF */
+            width: 90%; /* Fixed width for PDF */
+            height: 90%; /* Fixed height for PDF */
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.open .modal-content {
+            transform: translateY(0);
+        }
+        .modal-content h4 {
+            color: var(--dark-blue);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+        .modal-content p {
+            margin-bottom: 20px;
+            font-size: 1em;
+            text-align: center;
+        }
+        .modal-close-btn {
+            background-color: var(--main-blue);
+            color: var(--text-light);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            align-self: flex-end; /* Align button to the right */
+            margin-top: 10px; /* Top space */
+        }
+        .modal-close-btn:hover {
+            background-color: var(--dark-blue);
+        }
+        /* Styles for the PDF iframe */
+        #pdfViewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+            flex-grow: 1; /* Allows iframe to occupy available space */
+        }
+
+        /* Hide elements when printing */
+        @media print {
+            .fixed-action-buttons,
+            .sticky-nav,
+            button.hexagon-btn,
+            #back-to-top-btn,
+            .document-btn, /* Hide document button when printing */
+            .modal-overlay /* Hide modal when printing */
+            {
+                display: none !important;
+            }
+            html, body {
+                width: auto !important;
+                height: auto !important;
+                overflow: visible !important;
+                background-color: #ffffff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color: #000000 !important;
+            }
+            #cv-container {
+                box-shadow: none !important;
+                border: none !important;
+                margin-top: 0 !important;
+                margin-bottom: 0 !important;
+                padding: 20px !important; /* Add padding for print margins */
+                width: auto !important;
+                max-width: none !important;
+                background-color: #ffffff !important; /* Ensure white background */
+            }
+            header, section, footer {
+                box-shadow: none !important;
+                border: none !important;
+                margin-top: 0 !important;
+                margin-bottom: 12pt !important;
+                padding-top: 5pt !important;
+                padding-bottom: 5pt !important;
+            }
+
+            header {
+                background-color: var(--header-bg) !important;
+                color: var(--text-light) !important;
+                padding: 20pt 15pt !important;
+            }
+            header .profile-photo {
+                border: 3px solid var(--main-blue) !important;
+                max-width: 100px !important;
+                max-height: 100px !important;
+            }
+            header h1 { font-size: 18pt !important; color: var(--text-light) !important; }
+            header .title { font-size: 12pt !important; color: var(--main-blue) !important; }
+            header .header-description { font-size: 10pt !important; color: #f0f0f0 !important; }
+            .hexagon-bg {
+                display: block !important;
+                opacity: 0.08 !important;
+                z-index: -1 !important;
+            }
+            .hexagon {
+                background-color: rgba(0, 123, 255, 0.08) !important;
+                animation: none !important;
+            }
+            .reveal-on-scroll {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+                visibility: visible !important;
+            }
+            .project-card {
+                page-break-inside: avoid !important; /* Prevent blocks from breaking */
+                border: 1px solid #ccc !important;
+                margin-bottom: 10pt !important;
+            }
+            .project-card .project-header {
+                background-color: #eaeaea !important;
+                color: #333333 !important;
+                padding: 8pt 10pt !important;
+            }
+             .project-card .project-header h3 {
+                font-size: 11pt !important;
+             }
+            .project-card .project-content {
+                max-height: none !important; /* Ensures content is fully visible */
+                padding: 8pt 10pt !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: block !important;
+                background-color: #ffffff !important;
+            }
+            .project-card .arrow { display: none !important; }
+
+            section h2 { font-size: 16pt !important; margin-bottom: 15pt !important; padding-bottom: 5pt !important;}
+            section h2::after { height: 2px !important; width: 50px !important;}
+            .skill-category { border: 1px solid #ddd !important; margin-bottom: 10pt !important; }
+            .skill-category h3 { font-size: 12pt !important; }
+            .skill-item { border-left: 3px solid var(--main-blue) !important; }
+
+            /* Ensure timeline-item content is displayed */
+            .timeline-item {
+                page-break-inside: avoid !important; /* Prevent blocks from breaking */
+                border-bottom: 1px solid #eee !important;
+                padding: 0 !important;
+                margin-bottom: 10pt !important;
+            }
+            .timeline-item h3 {
+                padding: 10pt 10pt 0 40pt !important;
+                display: block !important;
+            }
+            .timeline-item .timeline-item-content {
+                max-height: none !important; /* Ensures content is fully visible */
+                padding: 0 10pt 10pt 40pt !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: block !important;
+            }
+            .timeline-item .arrow { display: none !important; }
+            .timeline-item::before { font-size: 1.2em !important; left: 5px !important; top: 10px !important; }
+            .timeline-item h3 { font-size: 11pt !important; }
+            .timeline-item .date { font-size: 9pt !important; }
+
+            p, li, span {
+                font-size: 10pt !important;
+                color: #000000 !important;
+            }
+            ul { padding-left: 20pt !important; }
+
+            a { text-decoration: none !important; color: var(--dark-blue) !important; }
+            img { max-width: 100% !important; page-break-inside: avoid !important; }
+            footer { padding: 15pt !important; }
+            footer h2 { font-size: 14pt !important; }
+        }
+    </style>
+</head>
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx BODY xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+<body>
+    <div class="fixed-action-buttons">
+        <div class="button-with-dropdown-wrapper">
+            <button id="menu-toggle-btn" class="hexagon-btn" aria-label="Alternar menú" aria-expanded="false">
+                <div class="icon-hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+            <nav class="sticky-nav">
+                <ul>
+                    <li><a href="#home" class="nav-link">Inicio</a></li>
+                    <li><a href="#about" class="nav-link">Acerca de Mí</a></li>
+                    <li><a href="#skills" class="nav-link">Conocimientos</a></li>
+                    <li><a href="#experience" class="nav-link">Experiencia</a></li>
+                    <li><a href="#education" class="nav-link">Formación</a></li>
+                    <li><a href="#complementary-education" class="nav-link">Formación Complementaria</a></li>
+                    <li><a href="#projects" class="nav-link">Proyectos</a></li>
+                    <li><a href="#contact" class="nav-link">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- New Language Switcher Container -->
+        <div class="button-with-dropdown-wrapper">
+            <button id="language-toggle-btn" class="hexagon-btn" aria-label="Cambiar idioma">
+                <span id="current-flag"></span><!-- Se vacía para que JS inserte la imagen -->
+            </button>
+            <div class="language-dropdown-menu">
+                <!-- Language options will be dynamically inserted here by JavaScript -->
+                <ul id="language-options-list"></ul>
+            </div>
+        </div>
+        <!-- End Language Switcher Container -->
+        <div class="button-wrapper">
+            <button id="print-btn" class="hexagon-btn" aria-label="Imprimir CV">
+                <svg viewBox="0 0 576 512" fill="currentColor">
+                    <path d="M576 288c0-35.3-28.7-64-64-64h-96V64c0-35.3-28.7-64-64-64H192c-35.3 0-64 28.7-64 64v160H32c-35.3 0-64 28.7-64 64v112c0 44.2 35.8 80 80 80h416c44.2 0 80-35.8 80-80V288zM480 288a48 48 0 1 1 0 96 48 48 0 1 1 0-96zM192 192v-64h192v64H192zm288 192a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <button id="back-to-top-btn" class="hexagon-btn" aria-label="Volver arriba">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+        </svg>
+    </button>
+    
+    <header id="home">
+        <div class="hexagon-bg" id="hexagon-container"></div>
+        <div class="header-inner-content">
+            <!-- Das Profilbild wurde auf den vom Benutzer bereitgestellten Pfad aktualisiert. -->
+            <!-- Falls dieses Bild nicht geladen wird, stellen Sie bitte sicher, dass 'Img/Bild Mauricio Mora.jpg' una públicamente accesible URL ist. -->
+            <img src="Img/Bild Mauricio Mora.jpg" alt="Foto de Perfil Mauricio Mora" class="profile-photo" onerror="this.onerror=null;this.src='https://placehold.co/150x150/a3a3a3/ffffff?text=MM';this.alt='Foto de perfil no disponible';">
+            <h1>Ing. Mauricio Mora, MSc.</h1>
+            <p class="title">Especialista en Automatización y Gestión de Proyectos</p>
+            <p class="header-description">
+                En los nuevos desafíos veo oportunidades de desarrollo. Con atención, creatividad y acción rápida encuentro la manera de superarlos. Los desafíos no son obstáculos, sino oportunidades para crecer y desarrollar mi potencial.
+            </p>
+        </div>
+    </header>
+
+    <div id="cv-container">
+        <main class="container">
+            <section id="about">
+                <h2>Acerca de Mí</h2>
+                <div class="section-content-reveal reveal-on-scroll">
+                    <p>
+                        Ingeniero Mauricio Mora, MSc., con una sólida trayectoria en la gestión de proyectos de automatización, desarrollo de software y técnicas EMSR. Mi enfoque se centra en la aplicación de la creatividad, una rápida capacidad de actuación y una atención meticulosa para superar desafíos, fomentar el crecimiento y desplegar mi máximo potencial. Busco activamente nuevas oportunidades que me permitan desarrollarme profesionalmente y aportar valor.
+                    </p>
+                </div>
+            </section>
+            <section id="skills">
+                <h2>Conocimientos Técnicos</h2>
+                <div class="section-content-reveal reveal-on-scroll">
+                    <div class="skills-container">
+                        <div class="skill-category">
+                            <h3>Software y Tecnologías</h3>
+                            <div class="skill-item"><span class="skill-name">MS Office, Access y Project</span> <span class="skill-level-text">(Nivel: 5/5)</span></div>
+                            <div class="skill-item"><span class="skill-name">SPS - Tia Portal</span> <span class="skill-level-text">(Nivel: 5/5)</span></div>
+                            <div class="skill-item"><span class="skill-name">MS Visual Basic</span> <span class="skill-level-text">(Nivel: 5/5)</span></div>
+                            <div class="skill-item"><span class="skill-name">C, C++</span> <span class="skill-level-text">(Nivel: 4/5)</span></div>
+                            <div class="skill-item"><span class="skill-name">HTML, Java, PHP</span> <span class="skill-level-text">(Nivel: 4/5)</span></div>
+                            <div class="skill-item"><span class="skill-name">Oracle - MySQL</span> <span class="skill-level-text">(Nivel: 3/5)</span></div>
+                            <div class="skill-item"><span class="skill-name">SAP</span> <span class="skill-level-text">(Nivel: 3/5)</span></div>
+                            <div class="skill-item"><span class="skill-name">Solid Edge</span> <span class="skill-level-text">(Nivel: 3/5)</span></div>
+                        </div>
+                        <div class="skill-category">
+                            <h3>Idiomas</h3>
+                            <div class="skill-item"><span class="skill-name">Español</span> <span class="language-level">(Nativo - C2)</span></div>
+                            <div class="skill-item"><span class="skill-name">Alemán</span> <span class="language-level">(C1)</span></div>
+                            <div class="skill-item"><span class="skill-name">Inglés</span> <span class="language-level">(B2)</span></div>
+                            <div class="skill-item"><span class="skill-name">Francés</span><span class="language-level">(A1)</span></div>
+                        </div>
+                        <div class="skill-category">
+                            <h3>Certificados y Otros</h3>
+                            <div class="skill-item"><span class="skill-name">Permisos de Conducir: A y B</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="experience">
+                <h2>Experiencia Laboral</h2>
+                <div class="section-content-reveal reveal-on-scroll">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                <!-- The gear image path has been updated to the one provided by the user. -->
+                                <!-- If this image does not load, please ensure that 'sim/Engranaje.png' is a publicly accesible URL ist. -->
+                                <img src="sim/Engranaje.png" alt="Engranaje" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=⚙';this.alt='Engranaje';">
+                            </div>
+                            <h3>EMSR-Techniker <span class="arrow"></span></h3>
+                            <p class="date">05.2024 - 11.2024</p>
+                            <div class="timeline-item-content">
+                                <p class="company">VOGELBUSCH Biocommodities GmbH, (Vollzeit), Viena, Austria</p>
+                                <p>Creación de documentación estándar para sistemas eléctricos e instrumentación (listas de medición, I/O, motores, consumidores) y revisión de diagramas P&I, asegurando la conformidad con los requisitos de automatización. Demostró alta proactividad y completó las tareas con plena satisfacción.</p>
+                                <button class="document-btn" data-pdf-path="pdf/Dienstzeugnis Vogelbusch.pdf" aria-label="Ver carta de recomendación">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                <!-- The gear image path has been updated to the one provided by the user. -->
+                                <!-- If this image does not load, please ensure that 'sim/Engranaje.png' is a públicamente accesible URL ist. -->
+                                <img src="sim/Engranaje.png" alt="Engranaje" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=⚙';this.alt='Engranaje';">
+                            </div>
+                            <h3>Projektmanagement in Automatisierung y Softwareentwicklung <span class="arrow"></span></h3>
+                            <p class="date">08.2021 - 03.2024</p>
+                            <div class="timeline-item-content">
+                                <p class="company">PRIMETALS TECHNOLOGIES AUSTRIA GmbH, (Vollzeit), Linz, Austria</p>
+                                <p>Rol clave en la arquitectura y desarrollo de software para proyectos de automatización y electrotecnia. Gestionó proyectos técnicos internacionales, incluyendo comunicación con clientes, negociación con proveedores, planificación de equipos eléctricos (MCC, PLCs, transformadores, motores, sensores, convertidores) y creación de documentación técnica detallada (especificaciones, estándares, layouts, listas de equipos y descripciones funcionales). Realizó inspecciones y aceptaciones en fábricas. Destacó por su precisión, fiabilidad, compromiso y profundo conocimiento técnico, siempre encontrando soluciones óptimas y contribuyendo significativamente al éxito de los proyectos.</p>
+                                <button class="document-btn" data-pdf-path="pdf/Dienstzeugnis Primetals.pdf" aria-label="Ver carta de recomendación">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                <!-- The gear image path has been updated to the one provided by the user. -->
+                                <!-- If this image does not load, please ensure that 'sim/Engranaje.png' is a públicamente accesible URL ist. -->
+                                <img src="sim/Engranaje.png" alt="Engranaje" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=⚙';this.alt='Engranaje';">
+                            </div>
+                            <h3>Automatisierungstechniken y Projektleiter <span class="arrow"></span></h3>
+                            <p class="date">06.2019 - 07.2021</p>
+                            <div class="timeline-item-content">
+                                <p class="company">SPRINGER MASCHINENFABRIK GmbH, (Vollzeit), Linz, Austria</p>
+                                <p>Programador de software PLC en automatización de aserraderos. Responsable de la creación de programas en equipo, la puesta en marcha en las instalaciones del cliente final y el cierre adecuado de los proyectos. Demostró ser una persona concienzuda, leal y versátil en sus funciones.</p>
+                                <button class="document-btn" data-pdf-path="pdf/Dienstzeugnis Springer.pdf" aria-label="Ver carta de recomendación">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                <!-- The gear image path has been updated to the one provided by the user. -->
+                                <!-- If this image does not load, please ensure that 'sim/Engranaje.png' is a públicamente accesible URL ist. -->
+                                <img src="sim/Engranaje.png" alt="Engranaje" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=⚙';this.alt='Engranaje';">
+                            </div>
+                            <h3>Promotionstätigkeiten <span class="arrow"></span></h3>
+                            <p class="date">01.2015 - 05.2019</p>
+                            <div class="timeline-item-content">
+                                <p class="company">PLASMAPUNKT DONAUZENTRUM, (Freier Dienstvertrag), Viena, Austria</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                <!-- The gear image path has been updated to the one provided by the user. -->
+                                <!-- If this image does not load, please ensure that 'sim/Engranaje.png' is a públicamente accesible URL ist. -->
+                                <img src="sim/Engranaje.png" alt="Engranaje" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=⚙';this.alt='Engranaje';">
+                            </div>
+                            <h3>Kälteanlagentechniker (Prácticas) <span class="arrow"></span></h3>
+                            <p class="date">02.2019 - 02.2019</p>
+                            <div class="timeline-item-content">
+                                <p class="company">Johnson Controls, (Praktikum), Viena, Austria</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                <!-- The gear image path has been updated to the one provided by the user. -->
+                                <!-- If this image does not load, please ensure that 'sim/Engranaje.png' is a públicamente accesible URL ist. -->
+                                <img src="sim/Engranaje.png" alt="Engranaje" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=⚙';this.alt='Engranaje';">
+                            </div>
+                            <h3>Hilfsmitarbeiter con Logistik-Tätigkeiten <span class="arrow"></span></h3>
+                            <p class="date">04.2016 - 01.2017</p>
+                            <div class="timeline-item-content">
+                                <p class="company">WIENER GEWÄSSER (MA 45), (Vollzeit), Viena, Austria</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                <!-- The gear image path has been updated to the one provided by the user. -->
+                                <!-- If this image does not load, please ensure that 'sim/Engranaje.png' is a públicamente accesible URL ist. -->
+                                <img src="sim/Engranaje.png" alt="Engranaje" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=⚙';this.alt='Engranaje';">
+                            </div>
+                            <h3>Sales Assistent-Manager <span class="arrow"></span></h3>
+                            <p class="date">04.2015 - 11.2015</p>
+                            <div class="timeline-item-content">
+                                <p class="company">SUBWAY (DON sub GmbH), (Saisonarbeit), Viena, Austria</p>
+                                <ul>
+                                    <li>Encargado de almacén, ventas y caja (mucho contacto con el cliente).</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                <!-- The gear image path has been updated to the one provided by the user. -->
+                                <!-- If this image does not load, please ensure that 'sim/Engranaje.png' is a públicamente accesible URL ist. -->
+                                <img src="sim/Engranaje.png" alt="Engranaje" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=⚙';this.alt='Engranaje';">
+                            </div>
+                            <h3>Administrador del parque automotor <span class="arrow"></span></h3>
+                            <p class="date">07.2012 - 01.2013</p>
+                            <div class="timeline-item-content">
+                                <p class="company">SERVICIO GEOLÓGICO COLOMBIANO (INGEOMINAS), Bogotá, Colombia</p>
+                                <p>Mi rol principal era asegurar el correcto funcionamiento de toda la flota de vehículos que brindaba transporte entre las distintas instalaciones de la entidad, para actividades dentro de la ciudad y para investigaciones y emergencias a nivel nacional. Durante este tiempo, logré desarrollar programas en Visual Basic para controlar los gastos de los vehículos, tanto en mecánica como en combustible, lo que resultó en un ahorro del 20%. Además, fui responsable de desarrollar y supervisar el proceso de compra de vehículos, adquiriendo con éxito cuatro camionetas que cumplían con las condiciones adecuadas para los servicios que realizamos, y establecí los modelos de contrato para futuras adquisiciones de vehículos aptos para la entidad.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                <!-- The gear image path has been updated to the one provided by the user. -->
+                                <!-- If this image does not load, please ensure that 'sim/Engranaje.png' is a públicamente accesible URL ist. -->
+                                <img src="sim/Engranaje.png" alt="Engranaje" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=⚙';this.alt='Engranaje';">
+                            </div>
+                            <h3>Administrador de proyectos <span class="arrow"></span></h3>
+                            <p class="date">03.2011 - 12.2011</p>
+                            <div class="timeline-item-content">
+                                <p class="company">FACTS S.A.S, Colombia</p>
+                                <p>Mi principal tarea consistía en desarrollar tableros utilizando Xcelsius. En este periodo, logré desarrollar un nuevo sistema de tableros multicapas que optimizó la visualización de datos. También fui pionero en la creación de tableros que podían cargar información directamente desde archivos de texto (.txt), lo que les otorgaba la flexibilidad de trabajar con cualquier base de datos. Para complementar esto, también realicé reportes en bases de datos Oracle, extrayendo la información en formato .txt para su posterior vinculación con los tableros.</p>
+                            </div>
+                        </div>
+                         <div class="timeline-item">
+                            <div class="timeline-icon">
+                                <!-- The gear image path has been updated to the one provided by the user. -->
+                                <!-- If this image does not load, please ensure that 'sim/Engranaje.png' is a públicamente accesible URL ist. -->
+                                <img src="sim/Engranaje.png" alt="Engranaje" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=⚙';this.alt='Engranaje';">
+                            </div>
+                            <h3>Administrador de proyectos <span class="arrow"></span></h3>
+                            <p class="date">05.2010 - 05.2011</p>
+                            <div class="timeline-item-content">
+                                <p class="company">QP Consultores, Colombia</p>
+                                <p>Mi responsabilidad era desarrollar tableros y reportes para la infraestructura de Business Intelligence, mostrando informes financieros, logísticos y de inventarios, entre otros. Durante mi tiempo allí, conseguí mejorar significativamente los tiempos de entrega, cumpliendo con las fechas pactadas y, por ende, elevando el nivel de cumplimiento de la compañía. Asimismo, desarrollé nuevos sistemas de tableros y reportes que hicieron la consulta de información mucho más dinámica. Un logro clave fue que, al realizar la concatenación de información dentro de las bases de datos Oracle, logré reducir considerablemente los tiempos de procesamiento de los tableros.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                <!-- The gear image path has been updated to the one provided by the user. -->
+                                <!-- If this image does not load, please ensure that 'sim/Engranaje.png' is a públicamente accesible URL ist. -->
+                                <img src="sim/Engranaje.png" alt="Engranaje" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=⚙';this.alt='Engranaje';">
+                            </div>
+                            <h3>IT & Logistik Manager <span class="arrow"></span></h3>
+                            <p class="date">2008 - 2010</p>
+                            <div class="timeline-item-content">
+                                <p class="company">BRITISH AMERICAN TOBACCO (BAT), Bogotá, Colombia</p>
+                                <ul>
+                                    <li>Manager de la plataforma de reportes con aplicación SAP Business Intelligence y Xcelsius.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="education">
+                <h2>Formación Académica</h2>
+                <div class="section-content-reveal reveal-on-scroll">
+                    <div class="timeline">
+                        <div class="timeline-item"> 
+                            <div class="timeline-icon">
+                                <!-- SVG wurde auf das gewünschte Doktorhut-Bild geändert. -->
+                                <img src="sim/Birrete.png" alt="Birrete" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=🎓';this.alt='Birrete';">
+                            </div>
+                            <h3>Produktions- y Technologiemanagement MSc <span class="arrow"></span></h3>
+                            <p class="date">09.2020 - 11.2023</p>
+                            <div class="timeline-item-content">
+                                <p class="institution">Zukunftsakademie Mostviertel y FH St. Pölten, Austria</p>
+                                <p>
+                                    El programa de Máster "Gestión de Producción y Tecnología (MSc)" capacita a los graduados para diseñar procesos de producción de manera eficiente e implementar innovaciones tecnológicas en la industria. Un tema central del estudio es la gestión de proyectos, que permite a los estudiantes planificar y controlar eficazmente proyectos complejos en el sector de la producción y la tecnología. Aprenden técnicas para la estructuración de proyectos, la planificación de recursos y tiempos, así como la gestión de riesgos, para implementar con éxito proyectos dinámicos y técnicamente exigentes.
+                                </p>
+                                <p>
+                                    Además, el programa pone un fuerte énfasis en los métodos de Lean Manufacturing, que tienen como objetivo maximizar la eficiencia y la calidad en la producción. Conceptos como el Sistema de Producción Toyota, Kaizen y Six Sigma son componentes importantes del plan de estudios. Estos métodos sirven para minimizar el desperdicio y aumentar la productividad, fomentando mejoras continuas en los procesos de producción. Los estudiantes aprenden a analizar sistemáticamente las cadenas de valor y a desarrollar estrategias de mejora sostenibles que garantizan alta calidad y bajos costos.
+                                </p>
+                                <p>
+                                    El programa prepara a los graduados para puestos de liderazgo en empresas de producción y tecnología. A través de la interacción de la gestión de proyectos y el Lean Manufacturing, desarrollan una comprensión profunda de los enfoques de gestión modernos que son demandados en una industria digitalizada y globalizada. Los graduados están perfectamente cualificados para integrar los avances tecnológicos de manera específica en los procesos de producción y crear ventajas competitivas. El Máster "Gestión de Producción y Tecnología" ofrece así una formación práctica y orientada al futuro, que se basa en los requisitos de una industria en constante evolución y tiene como objetivo enfrentar los desafíos de la producción moderna con soluciones innovadoras y sostenibles.
+                                </p>
+                                <button class="document-btn" data-pdf-path="pdf/MSc_PTM_Mauricio_Mora.pdf" aria-label="Ver descripción del Master">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                                    </svg>
+                                </button>
+                                <p><strong>Masterarbeit:</strong></p>
+                                <p>
+                                    Mi tesis de maestría, "Empirische Bewertung der Vorteile von MUL (Maßeinheitenumwandlung und Lineal) bei la Umrechnung von Maßeinheiten: Ein Vergleich con la tradiciónen Methode", evaluó empíricamente los beneficios de un método alternativo (MUL) <span style="font-weight: bold;">desarrollado por mí</span> para la conversión de unidades de medida, en comparación con el enfoque tradicional. A través de un análisis detallado, la investigación arrojó luz sobre la eficacia de este nuevo método en el aprendizaje y la aplicación práctica, ofreciendo una perspectiva valiosa para la didáctica de las ciencias y la ingeniería.
+                                </p>
+                                <button class="document-btn" data-pdf-path="pdf/20230824_Masterthesis_PTM_Mauricio_Mora.pdf" aria-label="Ver Masterarbeit">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                  <!-- SVG wurde auf das gewünschte Doktorhut-Bild geändert. -->
+                                <img src="sim/Birrete.png" alt="Birrete" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=🎓';this.alt='Birrete';">
+                            </div>
+                            <h3>Kälteanlagentechniker - Berufsausbildung <span class="arrow"></span></h3>
+                            <p class="date">11.2017 - 04.2019</p>
+                            <div class="timeline-item-content">
+                                <p class="institution">Berufsförderungsinstitut (BFI), Viena, Austria</p>
+                                <p>Durante esta capacitación intensiva adquirí una sólida base en el montaje, puesta en marcha y mantenimiento de sistemas de refrigeración y climatización, integrando conocimientos fundamentales de electrotecnia industrial. Me formé en la instalación eléctrica de plantas de frío y bombas de calor, incluyendo el tendido de tuberías, conexiones, comprobación de estanqueidad y control de fugas, siguiendo las normativas de seguridad y protección ambiental. Asimismo, desarrollé competencias en el diseño y diagnóstico de circuitos eléctricos y sistemas de control (PLC), incluyendo técnicas de medición y regulación específicas del ciclo de refrigeración. Complementé mi perfil con habilidades prácticas en metalurgia —como torneado, fresado, soldadura y montaje de cuadros eléctricos— y aplicación de sistemas neumáticos o electro-neumáticos. La formación me preparó para enfrentar con éxito la examen final (“Lehrabschlussprüfung”) en el módulo de Electrotecnia y en la especialidad de Refrigeración, posicionándome como técnico capacitado en la operación, mantenimiento y optimización de plantas frigoríficas e instalaciones de climatización en entornos industriales y comerciales.</p>
+                                <button class="document-btn" data-pdf-path="pdf/Lehrabschlus_Kaelteanlagentechniker_Mauricio_Mora.pdf" aria-label="Ver documento del Elektrotechniker Berufsausbildung">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                  <!-- SVG wurde auf das gewünschte Doktorhut-Bild geändert. -->
+                                <img src="sim/Birrete.png" alt="Birrete" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=🎓';this.alt='Birrete';">
+                            </div>
+                            <h3>Elektrotechniker Berufsausbildung (Anlagen- y Betriebstechnik) <span class="arrow"></span></h3>
+                            <p class="date">11.2017 - 04.2019</p>
+                            <div class="timeline-item-content">
+                                <p class="institution">Berufsförderungsinstitut (BFI), Viena, Austria</p>
+                                <p>Durante esta formación intensiva adquirí una base sólida en electrotecnia aplicada a entornos industriales, enfocándome en la instalación, mantenimiento y reparación de sistemas eléctricos y electromecánicos. Aprendí a trabajar con instalaciones complejas que integran componentes eléctricos, neumáticos e hidráulicos, aplicando criterios técnicos y normativas de seguridad vigentes.  Me capacité en la interpretación de planos eléctricos y esquemas técnicos, así como en la medición, análisis y diagnóstico de circuitos en corriente continua, alterna y trifásica, utilizando instrumentos profesionales y respetando los estándares VDE. Paralelamente, desarrollé habilidades en automatización industrial mediante el manejo de sistemas de control y programación básica de PLCs, aplicando conocimientos en medición, regulación y detección de fallos.  La formación incluyó también fundamentos de fabricación mecánica (torneado, fresado, CNC) y técnicas básicas de soldadura (electrodo, oxicorte y MIG/MAG), lo que me permitió complementar mi perfil técnico con capacidades prácticas de taller. Asimismo, abordé temas de sostenibilidad y energías renovables aplicadas a la ingeniería eléctrica, integrando soluciones eficientes y respetuosas con el medio ambiente.  Este curso me preparó para ejercer profesionalmente como técnico electricista en instalaciones industriales, con una visión integral del funcionamiento de plantas y sistemas operativos, y con competencias para asumir tareas tanto técnicas como operativas dentro del mantenimiento y optimización de procesos industriales.</p>
+                                <button class="document-btn" data-pdf-path="pdf/Lehrabschlus_Elektrotechniker_Mauricio_Mora.pdf" aria-label="Ver documento del Elektrotechniker Berufsausbildung">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                  <!-- SVG wurde auf das gewünschte Doktorhut-Bild geändert. -->
+                                <img src="sim/Birrete.png" alt="Birrete" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=🎓';this.alt='Birrete';">
+                            </div>
+                            <h3>Masterstudium Maschinenbau <span class="arrow"></span></h3>
+                            <p class="date">2003 - 2012</p>
+                            <div class="timeline-item-content">
+                                <p class="institution">Universidad de los Andes, Bogotá, Colombia</p>
+                                <p>Especialidad: Logística y Control de Producción.</p>
+                                <p>Durante la carrera en Ingeniería Industrial, adquirí una formación integral orientada a la optimización de procesos en diversos sectores de la industria y la economía. Desarrollé competencias en áreas clave como producción, logística, gestión de calidad y gestión de la cadena de suministro, enfocándome en la mejora de la eficiencia operativa y la reducción de costos.  Además, obtuve conocimientos aplicables en investigación y desarrollo de tecnologías innovadoras, especialmente en automatización, robótica e inteligencia artificial. También me formé en consultoría empresarial, apoyando a organizaciones en la mejora de procesos, la planificación estratégica y la gestión de proyectos.  Mi formación incluyó el liderazgo de equipos, la planificación de procesos productivos, la implementación de sistemas ERP y el desarrollo de soluciones sostenibles para la industria. Esta carrera me preparó para asumir roles de responsabilidad y liderazgo en un entorno económico globalizado.</p>
+                                <button class="document-btn" data-pdf-path="pdf/Masterstudium_Mascninenbau_Mauricio_Mora.pdf" aria-label="Ver documento del Masterstudium Maschinenbau">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                  <!-- SVG wurde auf das gewünschte Doktorhut-Bild geändert. -->
+                                <img src="sim/Birrete.png" alt="Birrete" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=🎓';this.alt='Birrete';">
+                            </div>
+                            <h3>Matura (Bachillerato) <span class="arrow"></span></h3>
+                            <p class="date">2003</p>
+                            <div class="timeline-item-content">
+                                <p class="institution">Liceo Los Alpes, Cali, Colombia</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="complementary-education">
+                <h2>Formación Complementaria</h2>
+                <div class="section-content-reveal reveal-on-scroll">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                <!-- SVG wurde auf das gewünschte Buch-Bild geändert. -->
+                                <img src="sim/Buch.png" alt="Libro" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=📖';this.alt='Libro';">
+                            </div>
+                            <h3>Curso de Introducción a la IA <span class="arrow"></span></h3>
+                            <p class="date">2025</p>
+                            <div class="timeline-item-content">
+                                <p class="institution">BIG school</p>
+                                <p>He completado el curso online de introducción a la Inteligencia Artificial enfocado en ChatGPT, GPTs personalizados y Make. Durante el curso, adquirí conocimientos fundamentales sobre IA, el diseño efectivo de prompts, la creación de asistentes personalizados con GPTs y la automatización de flujos de trabajo utilizando Make.</p>
+                                <button class="document-btn" data-pdf-path="pdf/Certificado_IA_Mauricio_Mora.pdf" aria-label="Ver certificado de IA">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                 <!-- SVG wurde auf das gewünschte Buch-Bild geändert. -->
+                                <img src="sim/Buch.png" alt="Libro" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=📖';this.alt='Libro';">
+                            </div>
+                            <h3>SCC Schulung (Safety Certificate for Contractors) <span class="arrow"></span></h3>
+                            <p class="date">2021</p>
+                            <div class="timeline-item-content">
+                                <p class="institution">TU Wien Austria</p>
+                                <p>Duración: 16 horas.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                 <!-- SVG wurde auf das gewünschte Buch-Bild geändert. -->
+                                <img src="sim/Buch.png" alt="Libro" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=📖';this.alt='Libro';">
+                            </div>
+                            <h3>Universitätskurs Modern Management - Projektmanagement <span class="arrow"></span></h3>
+                            <p class="date">2016</p>
+                            <div class="timeline-item-content">
+                                <p class="institution">Universität Graz, Austria</p>
+                                <p>Duración: 192 horas.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                 <!-- SVG wurde auf das gewünschte Buch-Bild geändert. -->
+                                <img src="sim/Buch.png" alt="Libro" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=📖';this.alt='Libro';">
+                            </div>
+                            <h3>Lean-Manufacturing-Kurs <span class="arrow"></span></h3>
+                            <p class="date">2013</p>
+                            <div class="timeline-item-content">
+                                <p class="institution">Brinks de Colombia, Bogotá, Colombia</p>
+                                <p>Duración: 50 horas.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-icon">
+                                 <!-- SVG wurde auf das gewünsخته Buch-Bild geändert. -->
+                                <img src="sim/Buch.png" alt="Libro" class="timeline-icon-img" onerror="this.onerror=null;this.src='https://placehold.co/30x30/0056b3/ffffff?text=📖';this.alt='Libro';">
+                            </div>
+                            <h3>Oracle Data Base Administrator Diplom <span class="arrow"></span></h3>
+                            <p class="date">2010</p>
+                            <div class="timeline-item-content">
+                                <p class="institution">Bogotá, Colombia</p>
+                                <p>Duración: 152 horas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="projects">
+                <h2>Proyectos Destacados</h2>
+                <div class="section-content-reveal reveal-on-scroll">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>Líder de Proyectos TI y Ventas</h3>
+                            <span class="arrow"></span>
+                        </div>
+                        <div class="project-content">
+                            <p><strong>Empresa:</strong> QP Consultores, Bogotá, Colombia</p>
+                            <p><strong>Periodo:</strong> 2010 - 2012</p>
+                            <ul>
+                                <li>Responsable de la gestión de proyectos de sistemas informáticos.</li>
+                                <li>Administración de bases de datos para clientes.</li>
+                                <li>Participación activa en la venta de sistemas y servicios de TI, identificando necesidades de clientes y proponiendo soluciones.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Nuevo proyecto insertado aquí -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>Automatización de la Migración de Variables de EPLAN a TIA Portal</h3>
+                            <span class="arrow"></span>
+                        </div>
+                        <div class="project-content">
+                            <p><strong>Empresa:</strong> Springer Maschinenfabrik GmbH</p>
+                            <p><strong>Descripción:</strong> Lideré el desarrollo e implementación de una herramienta para automatizar y estandarizar la migración de variables desde EPLAN Electric P8 a TIA Portal, optimizando significativamente el proceso de configuración de proyectos de automatización.</p>
+                            <p><strong>Tecnologías Utilizadas:</strong> La solución fue desarrollada en Visual Basic for Applications (VBA) dentro de Microsoft Excel, aprovechando la capacidad de Excel para la gestión y manipulación de datos.</p>
+                            <p><strong>Funcionalidades Implementadas:</strong></p>
+                            <ul>
+                                <li>Extracción y procesamiento automático de variables desde EPLAN.</li>
+                                <li>Generación estandarizada de la estructura de carpetas y variables en TIA Portal.</li>
+                                <li>Creación de un archivo Excel listo para la importación directa de todas las variables en TIA Portal.</li>
+                                <li>Cumplimiento de estándares de nomenclatura y organización específicos de TIA Portal.</li>
+                            </ul>
+                            <p><strong>Desafío y Solución Clave:</strong> El desafío principal radicaba en la tediosa y propensa a errores migración manual de un gran volumen de variables de EPLAN a TIA Portal, lo que resultaba en inconsistencias y retrasos. La solución fue crear un programa en VBA que automatizaba la lectura de la exportación de EPLAN, procesaba los datos y generaba un archivo Excel estructurado y estandarizado, que podía ser importado directamente en TIA Portal. Esto eliminó la necesidad de la creación manual, asegurando consistencia y acelerando drásticamente el inicio de los proyectos.</p>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>Desarrollo de Plataformas BI</h3>
+                            <span class="arrow"></span>
+                        </div>
+                        <div class="project-content">
+                            <p><strong>Empresa:</strong> QP Consultores</p>
+                            <p><strong>Descripción:</strong> Como líder de proyecto, dirigí y gestioné el desarrollo e implementación de diversas plataformas de Business Intelligence (BI) para una variedad de clientes.</p>
+                            <p><strong>Alcance y Colaboración:</strong> Este proyecto implicó la coordinación y colaboración estrecha con equipos de desarrolladores para asegurar que las soluciones de BI diseñadas no solo cumplieran con los requisitos técnicos, sino que también proporcionaran información valiosa y accionable para la toma de decisiones estratégicas de los clientes.</p>
+                            <p><strong>Gestión del Ciclo de Vida del Proyecto:</strong> Fui responsable de la gestión integral de estos proyectos, abarcando todas las fases del ciclo de vida:</p>
+                            <ul>
+                                <li>Planificación Inicial: Definición de objetivos, alcance y recursos.</li>
+                                <li>Comunicación: Mantenimiento de una comunicación fluida y efectiva con todos los stakeholders (clientes, equipos de desarrollo).</li>
+                                <li>Puesta en Marcha y Funcionamiento: Supervisión de la implementación y aseguramiento de la operatividad de las plataformas.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>Consultor de Logística y TI</h3>
+                            <span class="arrow"></span>
+                        </div>
+                        <div class="project-content">
+                            <p><strong>Organización:</strong> SERVICIO GEOLÓGICO COLOMBIANO, Bogotá, Colombia</p>
+                            <p><strong>Periodo:</strong> 2012 - 2013</p>
+                            <ul>
+                                <li>Desarrollo e implementación de sistemas de control de rutas para optimizar la eficiencia de los conductores.</li>
+                                <li>Gestión del mantenimiento preventivo y correctivo de una flota de 45 vehículos (PKWs y Pickups).</li>
+                                <li>Elaboración y control de presupuestos para el departamento de logística y transporte.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>Voluntariado Comprometido</h3>
+                            <span class="arrow"></span>
+                        </div>
+                        <div class="project-content">
+                            <p><strong>Organización:</strong> Tiergarten Schönbrunn, Viena, Austria</p>
+                            <p><strong>Periodo:</strong> Desde 2016</p>
+                            <p>
+                                Colaborador voluntario de forma continua en el zoológico de Schönbrunn, demostrando un fuerte compromiso con el bienestar animal y la conservación. Esta actividad refleja dedicación, responsabilidad y pasión por la naturaleza.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>Sistema de Riego Automatizado</h3>
+                            <span class="arrow"></span>
+                        </div>
+                        <div class="project-content">
+                            <p><strong>Empresa:</strong> Springer Maschinenfabrik GmbH</p>
+                            <p><strong>Descripción:</strong> Lideré el diseño e implementación de un sistema de riego innovador para mantener la humedad óptima de grandes volúmenes de troncos de madera.</p>
+                            <p><strong>Tecnologías Utilizadas:</strong> La automatización se logró con PLCs de Siemens, programados en TIA Portal. Desarrollé una interfaz de usuario avanzada con plataformas SCADA de Siemens, accesibles vía pantallas táctiles y computadores externos.</p>
+                            <p><strong>Funcionalidades Implementadas:</strong></p>
+                            <ul>
+                                <li>Selección y agrupación personalizada de aspersores.</li>
+                                <li>Ajuste preciso de los tiempos de funcionamiento del riego.</li>
+                                <li>Monitoreo en tiempo real del estado y capacidad de las bombas.</li>
+                                <li>Integración de datos ambientales (dirección del viento) para optimizar el riego.</li>
+                                <li>Registro de horas de funcionamiento para mantenimiento preventivo.</li>
+                            </ul>
+                            <p><strong>Desafío y Solución Clave:</strong> El principal desafío fue la capacidad limitada de las bombas, que impedía activar todos los aspersores simultáneamente. Diseñé y programé un sistema flexible que permitía al cliente seleccionar grupos de aspersores y crear programas de riego personalizados con diferentes salidas y tiempos de ejecución, optimizando el uso de recursos.</p>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>Optimización de Procesos de Solidificación</h3>
+                            <span class="arrow"></span>
+                        </div>
+                        <div class="project-content">
+                            <p><strong>Empresa:</strong> PRIMETALS TECHNOLOGIES AUSTRIA GmbH</p>
+                            <p><strong>Descripción:</strong> Me enfoqué en la mejora y optimización de los procesos de solidificación de metales, un componente crítico en la producción industrial.</p>
+                            <p><strong>Tecnologías Utilizadas:</strong> Este proyecto implicó la manipulación y mejora de sistemas de control existentes, predominantemente basados en sistemas Siemens y su entorno de programación TIA Portal.</p>
+                            <p><strong>Contribuciones y Logros:</strong> Mi trabajo se centró en el desarrollo de bloques de programación específicos. Estos bloques fueron diseñados para mejorar la eficiencia general y el control preciso de los procesos de producción, llevando a beneficios como la reducción de tiempos de ciclo y mejora de la calidad del producto final mediante un control más fino.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer id="contact">
+            <h2>Contacto</h2>
+            <div class="section-content-reveal reveal-on-scroll">
+                <div class="container">
+                    <div class="contact-info-item">
+                        <p>Ing. Mauricio Mora, MSc.</p>
+                    </div>
+                    <div class="contact-info-item">
+                        <p><strong>Teléfono:</strong> <a href="tel:+436606032876">+43 660 603 28 76</a></p>
+                    </div>
+                    <div class="contact-info-item">
+                        <p><strong>Email:</strong> <a href="mailto:mauricio.mora@gmx.at">mauricio.mora@gmx.at</a></p>
+                    </div>
+                    <div class="contact-info-item">
+                        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/ing-mauricio-mora-msc" target="_blank">www.linkedin.com/in/ing-mauricio-mora-msc</a></p>
+                    </div>
+                    <div class="contact-info-item">
+                        <p><strong>Dirección:</strong> Maximilianstraße 74b/20, 3100 St. Pölten, Austria</p>
+                    </div>
+                    <p>&copy; <span id="currentYear"></span> Mauricio Mora. Todos los derechos reservados.</p>
+                    <p>CV actualizado a Abril 2025.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div id="documentModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn" aria-label="Cerrar documento">X</button>
+            <iframe id="pdfViewer" src="" frameborder="0"></iframe>
+        </div>
+    </div>
+
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx SCRIPT xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <script type="text/javascript">
+        (function() {
+            // Hexagon animation
+            const hexagonContainer = document.getElementById('hexagon-container');
+            const numberOfHexagons = 20;
+            for (let i = 0; i < numberOfHexagons; i++) {
+                const hexagon = document.createElement('div');
+                hexagon.classList.add('hexagon');
+                const size = Math.random() * 80 + 30;
+                hexagon.style.width = `${size}px`;
+                hexagon.style.height = `${size * 1.1547}px`;
+                hexagon.style.top = `${Math.random() * 100}%`;
+                hexagon.style.left = `${Math.random() * 100}%`;
+                hexagon.style.animationDelay = `${Math.random() * 10}s`;
+                hexagon.style.animationDuration = `${Math.random() * 10 + 15}s`;
+                hexagon.style.backgroundColor = `rgba(0, 123, 255, ${Math.random() * 0.25 + 0.20})`;
+                hexagonContainer.appendChild(hexagon);
+            }
+            // Project card collapsible (MODIFIED for + / - and hover effect)
+            const projectHeaders = document.querySelectorAll('.project-header');
+            projectHeaders.forEach(header => {
+                const projectCard = header.parentElement;
+                const arrowSpan = header.querySelector('.arrow');
+                const content = projectCard.querySelector('.project-content');
+
+                if (content) {
+                    arrowSpan.textContent = '+'; // Default to plus
+                    header.addEventListener('click', () => {
+                        projectCard.classList.toggle('open');
+                        if (projectCard.classList.contains('open')) {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                            arrowSpan.textContent = '-'; // Change to minus when open
+                        } else {
+                            content.style.maxHeight = '0';
+                            arrowSpan.textContent = '+'; // Change back to plus when closed
+                        }
+                    });
+                }
+            });
+
+            // Timeline item collapsible (MODIFIED for + / - and hover effect)
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach(item => {
+                const h3 = item.querySelector('h3');
+                const arrowSpan = h3.querySelector('.arrow'); // Get the arrow span
+                const content = item.querySelector('.timeline-item-content');
+
+                // Set initial state for the arrow
+                if (content) {
+                    arrowSpan.textContent = '+'; // Default to plus
+                    h3.addEventListener('click', () => {
+                        item.classList.toggle('open');
+                        if (item.classList.contains('open')) {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                            arrowSpan.textContent = '-'; // Change to minus when open
+                        } else {
+                            content.style.maxHeight = '0';
+                            arrowSpan.textContent = '+'; // Change back to plus when closed
+                        }
+                    });
+                }
+            });
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            // Profile photo error handling (Removed JavaScript logic, now handled directly in HTML img tag for consistency)
+
+            // Reveal on Scroll & Active Link
+            // Now we select the new .section-content-reveal divs for the animation
+            const sectionsToReveal = document.querySelectorAll('.section-content-reveal');
+            const navLinks = document.querySelectorAll('.sticky-nav .nav-link');
+            const allNavigableSections = document.querySelectorAll('header[id], section[id], footer[id]');
+
+            // MODIFIED: Adjust rootMargin so content reveals later
+            const revealOptions = { root: null, threshold: 0.15, rootMargin: "0px 0px -100px 0px" };
+            const activeLinkOptions = { root: null, threshold: 0.4, rootMargin: "-30% 0px -30% 0px" };
+
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, revealOptions);
+            sectionsToReveal.forEach(section => sectionObserver.observe(section));
+
+            const activeLinkObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    // For navigation links, we continue to observe the complete sections (by their ID)
+                    const id = entry.target.getAttribute('id');
+                    const navLink = document.querySelector(`.sticky-nav a[href="#${id}"]`);
+                    if (navLink) {
+                        if (entry.isIntersecting && entry.intersectionRatio >= activeLinkOptions.threshold) {
+                            navLinks.forEach(link => link.classList.remove('active-link'));
+                            navLink.classList.add('active-link');
+                        } else {
+                            if (!entry.isIntersecting && navLink.classList.contains('active-link')) {
+                                navLink.classList.remove('active-link');
+                            }
+                        }
+                    }
+                });
+            }, activeLinkOptions);
+            allNavigableSections.forEach(section => activeLinkObserver.observe(section));
+            // Menu Toggle
+            const menuToggleBtn = document.getElementById('menu-toggle-btn');
+            const stickyNav = document.querySelector('.sticky-nav');
+            menuToggleBtn.addEventListener('click', () => {
+                // Close language menu if open when main menu is opened
+                if (languageDropdownMenu.classList.contains('open')) {
+                    languageDropdownMenu.classList.remove('open');
+                }
+                menuToggleBtn.classList.toggle('open');
+                stickyNav.classList.toggle('open');
+                menuToggleBtn.setAttribute('aria-expanded', menuToggleBtn.classList.contains('open'));
+            });
+            // Back to Top Button
+            const backToTopBtn = document.getElementById('back-to-top-btn');
+            const headerSection = document.getElementById('home');
+            const headerObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.target === headerSection) {
+                        if (entry.isIntersecting) {
+                            backToTopBtn.style.display = 'none';
+                        } else {
+                            backToTopBtn.style.display = 'flex';
+                        }
+                    }
+                });
+            }, { threshold: 0 });
+            headerObserver.observe(headerSection);
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            // Print Button
+            const printBtn = document.getElementById('print-btn');
+            printBtn.addEventListener('click', () => {
+                document.body.classList.add('pdf-generating');
+                window.print();
+                setTimeout(() => {
+                    document.body.classList.remove('pdf-generating');
+                }, 500);
+            });
+
+            // Modal Logic for PDF viewer
+            const documentModal = document.getElementById('documentModal');
+            const pdfViewer = document.getElementById('pdfViewer');
+            const modalCloseBtn = documentModal.querySelector('.modal-close-btn');
+
+            modalCloseBtn.addEventListener('click', () => {
+                documentModal.classList.remove('open');
+                pdfViewer.src = ''; // Clear the iframe src to stop PDF loading/memory usage
+            });
+
+            // Add tooltips and modal functionality to document buttons
+            document.querySelectorAll('.document-btn').forEach(button => {
+                const pdfPath = button.dataset.pdfPath;
+                // Extract filename from path and format it
+                let fileName = pdfPath.split('/').pop(); // Get the last part of the path
+                fileName = fileName.replace(/\.pdf$/i, '', fileName); // Remove .pdf extension
+                fileName = fileName.replace(/_/g, ' ', fileName); // Replace underscores with spaces
+                fileName = fileName.replace(/-/g, ' ', fileName); // Replace hyphens with spaces
+                // Optional: Capitalize first letter of each word (simple approach)
+                fileName = fileName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+
+                button.setAttribute('title', `Zertifizierung - ${fileName}`);
+
+                button.addEventListener('click', () => {
+                    pdfViewer.src = pdfPath; // Set the iframe src
+                    documentModal.classList.add('open'); // Open the modal
+                });
+            });
+
+            // Language Switcher Logic
+            const languageToggleBtn = document.getElementById('language-toggle-btn');
+            const languageDropdownMenu = document.querySelector('.language-dropdown-menu');
+            const currentFlagSpan = document.getElementById('current-flag');
+            const languageOptionsList = document.getElementById('language-options-list');
+
+            const languages = [
+                { code: 'es', flag: 'sim/espana.png', flagEmojiFallback: 'sim/espana.png', name: 'Español', url: 'https://motzimg84.github.io/CV_MMora_ES/' },
+                { code: 'en', flag: 'sim/estados-unidos.png', flagEmojiFallback: '🇺🇸', name: 'English', url: 'https://motzimg84.github.io/CV_MMora_EN/' },
+                { code: 'de', flag: 'sim/austria.png', flagEmojiFallback: '🇦🇹', name: 'Deutsch', url: 'https://motzimg84.github.io/CV_MMora_DE/' }
+            ];
+
+            let currentLangCode = document.documentElement.lang; // Initialize with current HTML lang
+
+            function renderLanguageOptions() {
+                languageOptionsList.innerHTML = ''; // Clear existing list
+                languages.forEach(lang => {
+                    if (lang.code !== currentLangCode) { // Only add if not the currently selected language
+                        const listItem = document.createElement('li');
+                        listItem.dataset.lang = lang.code;
+                        
+                        const img = document.createElement('img');
+                        img.src = lang.flag;
+                        img.alt = `${lang.name} Flag`;
+                        img.classList.add('dropdown-flag-icon'); // Add a class for styling
+                        // Add onerror for fallback to emoji
+                        img.onerror = function() {
+                            this.onerror = null; // Prevent infinite loop
+                            this.src = `https://placehold.co/20x20/a3a3a3/ffffff?text=${encodeURIComponent(lang.flagEmojiFallback)}`;
+                            this.alt = `${lang.name} (Error)`;
+                        };
+
+                        listItem.appendChild(img);
+                        listItem.appendChild(document.createTextNode(` ${lang.name}`)); // Add text after image
+
+                        languageOptionsList.appendChild(listItem);
+
+                        listItem.addEventListener('click', () => {
+                            // Redirect to the specific URL for the selected language
+                            window.location.href = lang.url;
+                        });
+                    }
+                });
+            }
+
+            function updateFlagDisplay() {
+                currentFlagSpan.innerHTML = ''; // Clear previous content
+                const selectedLang = languages.find(lang => lang.code === currentLangCode);
+                if (selectedLang) {
+                    const img = document.createElement('img');
+                    img.src = selectedLang.flag;
+                    img.alt = `${selectedLang.name} Flag`;
+                    img.classList.add('inline-flag-icon'); // Add a class for styling
+                    // Add onerror for fallback to emoji
+                    img.onerror = function() {
+                        this.onerror = null; // Prevent infinite loop
+                        this.src = `https://placehold.co/24x24/a3a3a3/ffffff?text=${encodeURIComponent(selectedLang.flagEmojiFallback)}`;
+                        this.alt = `${selectedLang.name} (Error)`;
+                    };
+                    currentFlagSpan.appendChild(img);
+                    languageToggleBtn.setAttribute('aria-label', `Idioma actual: ${selectedLang.name}`);
+                }
+            }
+
+            languageToggleBtn.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent document click from closing immediately
+                // Close main menu if open when language menu is opened
+                if (stickyNav.classList.contains('open')) {
+                    stickyNav.classList.remove('open');
+                    menuToggleBtn.classList.remove('open'); // Also reset hamburger icon
+                }
+                languageDropdownMenu.classList.toggle('open');
+                if (languageDropdownMenu.classList.contains('open')) {
+                    renderLanguageOptions(); // Render the list when opening
+                }
+            });
+
+            // Close dropdowns if clicked outside
+            document.addEventListener('click', (event) => {
+                if (!menuToggleBtn.contains(event.target) && !stickyNav.contains(event.target)) {
+                    stickyNav.classList.remove('open');
+                    menuToggleBtn.classList.remove('open');
+                }
+                if (!languageToggleBtn.contains(event.target) && !languageDropdownMenu.contains(event.target)) {
+                    languageDropdownMenu.classList.remove('open');
+                }
+            });
+
+            // Set initial flag and render options on page load
+            updateFlagDisplay();
+            renderLanguageOptions();
+        })();
+    </script>
+</body>
+</html>
